@@ -16,8 +16,6 @@ class JobDescription:
 
         self.summary = None
 
-        self.education_details = None
-
         self.corpus = list()
 
         self.parse()
@@ -29,7 +27,7 @@ class JobDescription:
 
         self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*?)Education')
 
-#        self.details = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
+#       self.details = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
 
         self.corpus.append(self.summary)
 
@@ -98,7 +96,6 @@ class Resume:
 
         self.corpus.append(self.summary)
 
-
 #        self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*?)gmail')
 
     def score(self, corpus):
@@ -110,7 +107,7 @@ class Resume:
         :return:
         """
 
-        cv = CountVectorizer(max_features=None)
+        cv = CountVectorizer(max_features=150)
 
         bag_of_words = cv.fit_transform(corpus).toarray()
 
@@ -122,7 +119,7 @@ class Resume:
 
         self.experience = sum(list(map(int, years))) + (sum(list(map(int, months))) / 12)
 
-
+        value[0][1] = value[0][1] + self.experience / 100
 
         return value[0][1]
 
@@ -164,6 +161,7 @@ class TextPreprocessor:
        :param regex:
        :return:
        """
+
         clean_text = None
 
         self.experience = raw_text
@@ -211,15 +209,15 @@ for path in pathlist:
     print(resume.compare_with(jobDescription))
     id_list.append(resume.id())
 
-print(resume.path)
+# print(resume.path)
 
-print(resume.experience)
+# print(resume.experience)
 
-print(resume.value)
+# print(resume.value)
 
-#sort_id = SortId()
+sort_id = SortId()
 
-#print(sort_id.sort(id_list, max_rank=-1))
+print(sort_id.sort(id_list))
 
 # 62-LI_Profile_Export_Applicants_20190521 (3).pdf best case
 # 66-LI_Profile_Export_Applicants_20190521 (2).pdf worst case
