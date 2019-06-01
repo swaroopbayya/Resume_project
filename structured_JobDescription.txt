@@ -1,0 +1,16 @@
+Job Description:
+Summary
+Advanced data pipeline development with components of the Hadoop stack like Apache Spark, Apache Livy, Apache Hive, Apache Kafka etc.
+Strong programming language skills using Java or Scala.
+Experience in using polyglot storages including RDBMS, NoSQL stores (HBase, Cassandra, Druid), data serialization formats like Parquet, ORC etc.
+Familiarity with server side web application development 
+Familiarity with metadata management, data security and governance domain
+Recognized contributions to open-source projects
+Cloudera is looking for passionate Technical Leads to join the Data Steward Studio (DSS) team within the Hortonworks DataPlane Services product suite. This team works on a product that provides data discovery, governance and metadata management capabilities to multiple Hadoop based data lakes spanning both on-prem and cloud clusters. DSS builds on contemporary open source security and governance products like Apache Ranger and Apache Atlas. It provides intelligent data cataloging and profiling capabilities using large scale data processing engines like Apache Spark and Apache Hive.
+To be successful in this position you will need to have a deep interest in building components using large scale data processing and machine learning capabilities with engines like Apache Spark or Hive. Building scalable, high performing data pipelines should be a motivation. You should be able to coordinate with and guide small high performance teams in the design and development of these components adhering to standard engineering practices.
+Experience:
+8+ years of relevant hands-on software engineering experience doing design and development, including deployments to production environments.
+2+ years of relevant hands-on experience leading teams to deliver production quality components in a product.
+Education:
+A MS/BE/ Btech degree in computer science or equivalent experience in industry
+
