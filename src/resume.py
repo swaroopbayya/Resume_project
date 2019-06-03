@@ -18,6 +18,8 @@ class JobDescription:
 
         self.experience = None
 
+        self.education_details = None
+
         self.corpus = list()
 
         self.parse()
@@ -28,6 +30,8 @@ class JobDescription:
             text = file.read()
 
         self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*?)Education')
+
+        self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
 
         self.corpus.append(self.summary)
 
@@ -59,7 +63,7 @@ class Resume:
 
         self.corpus.append(' '.join(obj.corpus))
 
-        self.value = self.score(self.corpus)
+        self.value = self.score(self.corpus, obj)
 
         return self.value
 
@@ -104,7 +108,7 @@ class Resume:
 
         self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*?)gmail')
 
-    def score(self, corpus):
+    def score(self, corpus, obj):
 
         """
         Takes list of texts as input and returns float value. The float value represents the similarity of the texts
@@ -119,7 +123,7 @@ class Resume:
 
         value = cosine_similarity(bag_of_words)
 
-        value[0][1] = value[0][1] + self.experience / 100
+        value[0][1] = value[0][1] + self.experience / (obj.experience * 10)
 
         return value[0][1]
 
@@ -166,7 +170,11 @@ class TextPreprocessor:
 
             raw_text = re.sub('[^a-zA-Z0-9]', ' ', raw_text)
 
-            years = re.findall('([0-9]{1,2}) years?', raw_text)
+            raw_text = re.findall(regex, raw_text)
+
+            raw_text = ' '.join(raw_text)
+
+            years = re.findall('([0-9]{1,2}).? years?', raw_text)
 
             months = re.findall('([0-9]{1,2}) months?', raw_text)
 
@@ -204,6 +212,8 @@ class TextPreprocessor:
 
 
 jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/se1.txt')
+
+print(jobDescription.experience)
 
 pathlist = Path('/Users/swaroop/Desktop/swaroop/resumes').glob('*.pdf')
 
