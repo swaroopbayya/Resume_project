@@ -25,6 +25,10 @@ class JobDescription:
         self.parse()
 
     def parse(self):
+        """
+        extracts all the text of different regex and assigns the values to respective variables
+        :return:
+        """
 
         with open(self.path, 'r') as file:
             text = file.read()
@@ -32,6 +36,8 @@ class JobDescription:
         self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*?)Education')
 
         self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
+
+        self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*)')
 
         self.corpus.append(self.summary)
 
@@ -78,6 +84,11 @@ class Resume:
         return [path, self.value]
 
     def modify(self, text):
+        """
+        Removes all the blank lines and returns a string.
+        :param text:
+        :return:
+        """
 
         text = ' '.join(text)
 
@@ -109,11 +120,11 @@ class Resume:
         self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*?)gmail')
 
     def score(self, corpus, obj):
-
         """
         Takes list of texts as input and returns float value. The float value represents the similarity of the texts
         present in the corpus by creating bag_of_words.
         :param corpus:
+        :param obj:
         :return:
         """
 
@@ -130,7 +141,15 @@ class Resume:
 
 class SortId:
 
-    def sort(self, id_list=list(), score=0.0, rank=0):
+    def sort(self, id_list, score=0.0, rank=0):
+        """
+        sorts the list of scores in descending order. It contains default parameters score and rank which can be
+        used to retrieve required resumes.
+        :param id_list:
+        :param score:
+        :param rank:
+        :return:
+        """
 
         length_list = len(id_list)
 
@@ -180,7 +199,8 @@ class TextPreprocessor:
 
             return sum(list(map(int, years))) + (sum(list(map(int, months))) / 12)
 
-        clean_text = None
+        elif regex == 'Education(.*?)gmail':
+            pass
 
         raw_text = re.sub('[^a-zA-Z]', " ", raw_text).split()
 
@@ -211,19 +231,19 @@ class TextPreprocessor:
         return clean_text
 
 
-jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/se1.txt')
+if __name__ == '__main__':
 
-print(jobDescription.experience)
+    jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/se1.txt')
 
-pathlist = Path('/Users/swaroop/Desktop/swaroop/resumes').glob('*.pdf')
+    pathlist = Path('/Users/swaroop/Desktop/swaroop/resumes').glob('*.pdf')
 
-id_list = list()
+    id_list = list()
 
-for file in pathlist:
-    resume = Resume(file)
-    print(resume.compare_with(jobDescription))
-    id_list.append(resume.id())
+    for file in pathlist:
+        resume = Resume(file)
+        print(resume.compare_with(jobDescription))
+        id_list.append(resume.id())
 
-sort_id = SortId()
+    sort_id = SortId()
 
-print(sort_id.sort(id_list))
+    print(sort_id.sort(id_list))
