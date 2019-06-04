@@ -141,7 +141,7 @@ class Resume:
 
 class SortId:
 
-    def sort(self, id_list, score=0.0, rank=0):
+    def sortScores(self, id_list, score=0.0, rank=0):
         """
         sorts the list of scores in descending order. It contains default parameters score and rank which can be
         used to retrieve required resumes.
@@ -246,4 +246,4 @@ if __name__ == '__main__':
 
     sort_id = SortId()
 
-    print(sort_id.sort(id_list))
+    print(sort_id.sortScores(id_list))
