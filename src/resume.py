@@ -33,7 +33,7 @@ class JobDescription:
         with open(self.path, 'r') as file:
             text = file.read()
 
-        self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*?)Education')
+        self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*)')
 
         self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
 
@@ -111,7 +111,7 @@ class Resume:
 
         text = self.modify(text)
 
-        self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*?)Education')
+        self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*)')
 
         self.corpus.append(self.summary)
 
@@ -233,7 +233,7 @@ class TextPreprocessor:
 
 if __name__ == '__main__':
 
-    jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/se1.txt')
+    jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/sse1.txt')
 
     pathlist = Path('/Users/swaroop/Desktop/swaroop/resumes').glob('*.pdf')
 
@@ -247,3 +247,5 @@ if __name__ == '__main__':
     sort_id = SortId()
 
     print(sort_id.sortScores(id_list))
+
+
