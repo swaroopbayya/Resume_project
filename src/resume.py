@@ -233,7 +233,7 @@ class TextPreprocessor:
 
 if __name__ == '__main__':
 
-    jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/sse1.txt')
+    jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
 
     pathlist = Path('/Users/swaroop/Desktop/swaroop/resumes').glob('*.pdf')
 
