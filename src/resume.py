@@ -199,9 +199,6 @@ class TextPreprocessor:
 
             return sum(list(map(int, years))) + (sum(list(map(int, months))) / 12)
 
-        elif regex == 'Education(.*?)gmail':
-            pass
-
         raw_text = re.sub('[^a-zA-Z]', " ", raw_text).split()
 
         raw_text = ' '.join([word for word in raw_text if word not in set(stopwords.words('english'))])
