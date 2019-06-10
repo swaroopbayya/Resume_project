@@ -141,19 +141,15 @@ class Resume:
 
 class SortId:
 
-    def sortScores(self, id_list, score=0.0, rank=0):
-        """
-        sorts the list of scores in descending order. It contains default parameters score and rank which can be
-        used to retrieve required resumes.
-        :param id_list:
-        :param score:
-        :param rank:
-        :return:
-        """
-
-        length_list = len(id_list)
+    def sort_scores(self, id_list=list()):
 
         id_list.sort(key=itemgetter(1), reverse=True)
+
+        return id_list
+
+    def find(self, id_list, rank=0, score=0.0):
+
+        length_list = len(id_list)
 
         if rank != 0:
 
@@ -168,10 +164,9 @@ class SortId:
 
         else:
 
-           id_list = [l for l in id_list if l[1] >= score]
+            id_list = [l for l in id_list if l[1] >= score]
 
-        return id_list
-
+            return id_list
 
 class TextPreprocessor:
 
@@ -243,6 +238,4 @@ if __name__ == '__main__':
 
     sort_id = SortId()
 
-    print(sort_id.sortScores(id_list))
-
-
+    print(sort_id.find(sort_id.sort_scores(id_list)))
