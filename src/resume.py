@@ -11,14 +11,11 @@ from operator import itemgetter
 class JobDescription:
 
     def __init__(self, path):
-
         self.path = path
 
         self.summary = None
 
         self.experience = None
-
-        self.education_details = None
 
         self.corpus = list()
 
@@ -37,22 +34,17 @@ class JobDescription:
 
         self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
 
-        self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*)')
-
         self.corpus.append(self.summary)
 
 
 class Resume:
 
     def __init__(self, path):
-
         self.path = path
 
         self.summary = None
 
         self.corpus = list()
-
-        self.education_details = None
 
         self.experience = None
 
@@ -117,8 +109,6 @@ class Resume:
 
         self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
 
-        self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*?)gmail')
-
     def score(self, corpus, obj):
         """
         Takes list of texts as input and returns float value. The float value represents the similarity of the texts
@@ -141,19 +131,15 @@ class Resume:
 
 class SortId:
 
-    def sortScores(self, id_list, score=0.0, rank=0):
-        """
-        sorts the list of scores in descending order. It contains default parameters score and rank which can be
-        used to retrieve required resumes.
-        :param id_list:
-        :param score:
-        :param rank:
-        :return:
-        """
-
-        length_list = len(id_list)
+    def sort_scores(self, id_list=list()):
 
         id_list.sort(key=itemgetter(1), reverse=True)
+
+        return id_list
+
+    def find(self, id_list, rank=0, score=0.0):
+
+        length_list = len(id_list)
 
         if rank != 0:
 
@@ -168,9 +154,9 @@ class SortId:
 
         else:
 
-           id_list = [l for l in id_list if l[1] >= score]
+            id_list = [l for l in id_list if l[1] >= score]
 
-        return id_list
+            return id_list
 
 
 class TextPreprocessor:
@@ -199,36 +185,35 @@ class TextPreprocessor:
 
             return sum(list(map(int, years))) + (sum(list(map(int, months))) / 12)
 
-        elif regex == 'Education(.*?)gmail':
-            pass
+        else:
 
-        raw_text = re.sub('[^a-zA-Z]', " ", raw_text).split()
+            raw_text = re.sub('[^a-zA-Z]', " ", raw_text).split()
 
-        raw_text = ' '.join([word for word in raw_text if word not in set(stopwords.words('english'))])
+            raw_text = ' '.join([word for word in raw_text if word not in set(stopwords.words('english'))])
 
-        special_words = ['machine', 'learning', 'artificial', 'intelligence', 'deep', 'learning']
+            special_words = ['machine', 'learning', 'artificial', 'intelligence', 'deep', 'learning']
 
-        abbrev = {'ml': 'machinelearning', 'ai': 'artificialintelligence', 'dl': 'deeplearning'}
+            abbrev = {'ml': 'machinelearning', 'ai': 'artificialintelligence', 'dl': 'deeplearning'}
 
-        summary = re.findall(regex, raw_text)
+            summary = re.findall(regex, raw_text)
 
-        len_of_text = len(summary)
+            len_of_text = len(summary)
 
-        for i in range(len_of_text):
-            if summary[i].lower() in abbrev:
-                summary[i] = abbrev[summary[i]]
+            for i in range(len_of_text):
+                if summary[i].lower() in abbrev:
+                    summary[i] = abbrev[summary[i]]
 
-        lis_length = len(special_words)
+            lis_length = len(special_words)
 
-        for i in range(lis_length - 1):
-            if special_words[i] + special_words[i + 1] in summary:
-                summary.remove(special_words[i] + special_words[i + 1])
-                summary.append(special_words[i])
-                summary.append(special_words[i + 1])
+            for i in range(lis_length - 1):
+                if special_words[i] + special_words[i + 1] in summary:
+                    summary.remove(special_words[i] + special_words[i + 1])
+                    summary.append(special_words[i])
+                    summary.append(special_words[i + 1])
 
-        clean_text = ' '.join(summary).lower()
+            clean_text = ' '.join(summary).lower()
 
-        return clean_text
+            return clean_text
 
 
 if __name__ == '__main__':
@@ -246,6 +231,4 @@ if __name__ == '__main__':
 
     sort_id = SortId()
 
-    print(sort_id.sortScores(id_list))
-
-
+    print(sort_id.find(sort_id.sort_scores(id_list)))
