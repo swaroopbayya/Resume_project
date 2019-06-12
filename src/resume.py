@@ -92,7 +92,7 @@ class Resume:
             text = slate.PDF(file)
 
         text = self.modify(text)
-        self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*)')
+        self.summary = TextPreprocessor().text_cleaning(text, '.*')
         self.corpus.append(self.summary)
         self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
         self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*?)gmail')
@@ -142,6 +142,7 @@ class SortId:
             id_list = [l for l in id_list if l[1] >= score]
 
             return id_list
+
 
 class TextPreprocessor:
 
