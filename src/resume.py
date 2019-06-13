@@ -155,9 +155,7 @@ class TextPreprocessor:
        :param regex:
        :return:
        """
-
         if regex == 'Experience(.*?)Education':
-
             raw_text = re.sub('[^a-zA-Z0-9]', ' ', raw_text)
             raw_text = re.findall(regex, raw_text)
             raw_text = ' '.join(raw_text)
@@ -190,16 +188,14 @@ class TextPreprocessor:
         return clean_text
 
 
-if __name__ == '__main__':
+jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
+pathlist = Path('/Users/swaroop/Desktop/upload').glob('*.pdf')
+id_list = list()
 
-    jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
-    pathlist = Path('/Users/swaroop/Desktop/swaroop/resumes').glob('*.pdf')
-    id_list = list()
+for file in pathlist:
+    resume = Resume(file)
+    print(resume.compare_with(jobDescription))
+    id_list.append(resume.id())
 
-    for file in pathlist:
-        resume = Resume(file)
-        print(resume.compare_with(jobDescription))
-        id_list.append(resume.id())
-
-    sort_id = SortId()
-    print(sort_id.find(sort_id.sort_scores(id_list)))
+sort_id = SortId()
+print(sort_id.find(sort_id.sort_scores(id_list)))
