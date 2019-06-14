@@ -8,6 +8,15 @@ from pathlib import Path
 from operator import itemgetter
 
 
+class DividePaths:
+
+    def __init__(self, folder):
+        self.path_list = list()
+        pathlist = Path(folder).glob('*.pdf')
+        for file in pathlist:
+            self.path_list.append(file)
+
+
 class JobDescription:
 
     def __init__(self, path):
@@ -188,14 +197,13 @@ class TextPreprocessor:
         return clean_text
 
 
-jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
-pathlist = Path('/Users/swaroop/Desktop/upload').glob('*.pdf')
-id_list = list()
-
-for file in pathlist:
-    resume = Resume(file)
-    print(resume.compare_with(jobDescription))
-    id_list.append(resume.id())
-
-sort_id = SortId()
-print(sort_id.find(sort_id.sort_scores(id_list)))
+if __name__ == '__main__':
+    id_list = list()
+    jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
+    divide_obj = DividePaths('/Users/swaroop/Desktop/Resumes')
+    for file in divide_obj.path_list:
+        resume = Resume(file)
+        print(resume.compare_with(jobDescription))
+        id_list.append(resume.id())
+    sort_id = SortId()
+    print(sort_id.find(sort_id.sort_scores(id_list)))
