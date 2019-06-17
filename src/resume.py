@@ -25,7 +25,6 @@ class JobDescription:
         self.path = path
         self.summary = None
         self.experience = None
-        self.education_details = None
         self.corpus = list()
         self.parse()
 
@@ -40,7 +39,6 @@ class JobDescription:
 
         self.summary = TextPreprocessor().text_cleaning(text, 'Summary(.*)')
         self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
-        self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*)')
         self.corpus.append(self.summary)
 
 
@@ -52,7 +50,6 @@ class Resume:
         self.summary = None
         self.corpus = list()
         self.name = None
-        self.education_details = None
         self.experience = None
         self.value = None
         self.parse()
@@ -105,7 +102,6 @@ class Resume:
         self.summary = TextPreprocessor().text_cleaning(text, '.*')
         self.corpus.append(self.summary)
         self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
-        self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*?)gmail')
         self.name = TextPreprocessor().text_cleaning(text, '(.*)Summary')
 
     def score(self, corpus, obj):
