@@ -83,20 +83,25 @@ def compare_to_jds():
         return "<h1>Please upload both JobDescription and Resumes</h1>"
     else:
         path_id = list()
+        my_list = list()
         jd = JobDescription(jd_path)
         id_list = list()
+        temp_list = list()
         divide_obj = DividePaths(app.config['UPLOAD_RESUME'])
         for file in divide_obj.path_list:
             resume = Resume(file)
             resume.compare_with(jd)
             id_list.append(resume.id())
+            my_list.append(resume.name)
         sort_id = SortId()
-        scores = sort_id.find(sort_id.sort_scores(id_list))
+        scores = sort_id.sort_scores(id_list, my_list)
         for path in scores:
-            a = re.sub(app.config['UPLOAD_RESUME'] + '/', '', path[0])
+            a = re.sub(app.config['UPLOAD_RESUME'] + '/', '', path[1][0])
             a = a + '.pdf'
             path_id.append(a)
-        temp_dict = {'score': scores, 'paths': path_id}
+        for temp in scores:
+            temp_list.append([temp[0], temp[1][1]])
+        temp_dict = {'score': temp_list, 'paths': path_id}
         return render_template('id_score.html', result=temp_dict)
 
 

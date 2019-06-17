@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from pathlib import Path
 from operator import itemgetter
+from zipfile import ZipFile
 
 
 class DividePaths:
@@ -50,6 +51,7 @@ class Resume:
         self.path = path
         self.summary = None
         self.corpus = list()
+        self.name = None
         self.education_details = None
         self.experience = None
         self.value = None
@@ -99,12 +101,12 @@ class Resume:
 
         with open(self.path, 'rb') as file:
             text = slate.PDF(file)
-
         text = self.modify(text)
         self.summary = TextPreprocessor().text_cleaning(text, '.*')
         self.corpus.append(self.summary)
         self.experience = TextPreprocessor().text_cleaning(text, 'Experience(.*?)Education')
         self.education_details = TextPreprocessor().text_cleaning(text, 'Education(.*?)gmail')
+        self.name = TextPreprocessor().text_cleaning(text, '(.*)Summary')
 
     def score(self, corpus, obj):
         """
@@ -125,13 +127,19 @@ class Resume:
 
 class SortId:
 
-    def sort_scores(self, id_list=list()):
+    def sort_scores(self, id_list=list(), my_list=list()):
 
-        id_list.sort(key=itemgetter(1), reverse=True)
+        if len(my_list) == 0:
+            id_list.sort(key=itemgetter(1), reverse=True)
+            return id_list
 
-        return id_list
+        temp = list(zip(my_list, id_list))
 
-    def find(self, id_list, rank=0, score=0.0):
+        temp.sort(key=lambda x:x[1][1], reverse=True)
+
+        return temp
+
+    def find(self, id_list, my_list=list(), rank=0, score=0.0):
 
         length_list = len(id_list)
 
@@ -173,6 +181,10 @@ class TextPreprocessor:
 
             return sum(list(map(int, years))) + (sum(list(map(int, months))) / 12)
 
+        elif regex == '(.*)Summary':
+            raw_text = re.split('\n', raw_text)
+            return raw_text[0]
+
         raw_text = re.sub('[^a-zA-Z]', " ", raw_text).split()
         raw_text = ' '.join([word for word in raw_text if word not in set(stopwords.words('english'))])
         special_words = ['machine', 'learning', 'artificial', 'intelligence', 'deep', 'learning']
@@ -198,7 +210,10 @@ class TextPreprocessor:
 
 
 if __name__ == '__main__':
+    # with ZipFile('/Users/swaroop/Desktop/Archive.zip') as Zipobj:
+    #    Zipobj.extractall('/Users/swaroop/Desktop/Resumes')
     id_list = list()
+    my_list = list()
     jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
     divide_obj = DividePaths('/Users/swaroop/Desktop/Resumes')
     for file in divide_obj.path_list:
@@ -206,4 +221,4 @@ if __name__ == '__main__':
         print(resume.compare_with(jobDescription))
         id_list.append(resume.id())
     sort_id = SortId()
-    print(sort_id.find(sort_id.sort_scores(id_list)))
+    print(sort_id.sort_scores(id_list))
