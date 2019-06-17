@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, send_file
 from werkzeug.utils import secure_filename
 import os
 from resume import Resume, JobDescription, DividePaths, SortId
 from pathlib import Path
+import re
 
 app = Flask(__name__)
 
@@ -41,7 +42,10 @@ def jd_uploaded():
 def try_again():
     return render_template('try_again.html')
 
-# @app.route('/resume/:id:')
+@app.route('/resume/<id>')
+def open_file(id):
+    path = app.config['UPLOAD_RESUME'] + '/' + id
+    return send_file(path, attachment_filename=id)
 
 @app.route('/resume/upload')
 def upload_files():
@@ -78,6 +82,7 @@ def compare_to_jds():
     if flag != 2:
         return "<h1>Please upload both JobDescription and Resumes</h1>"
     else:
+        path_id = list()
         jd = JobDescription(jd_path)
         id_list = list()
         divide_obj = DividePaths(app.config['UPLOAD_RESUME'])
@@ -87,8 +92,12 @@ def compare_to_jds():
             id_list.append(resume.id())
         sort_id = SortId()
         scores = sort_id.find(sort_id.sort_scores(id_list))
-
-        return render_template('id_score.html', result=scores)
+        for path in scores:
+            a = re.sub(app.config['UPLOAD_RESUME'] + '/', '', path[0])
+            a = a + '.pdf'
+            path_id.append(a)
+        temp_dict = {'score': scores, 'paths': path_id}
+        return render_template('id_score.html', result=temp_dict)
 
 
 app.run()

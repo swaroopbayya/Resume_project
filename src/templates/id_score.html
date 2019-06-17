@@ -6,10 +6,10 @@
               <th>Link</th>
               <th>score</th>
           </tr>
-         {% for val in result %}
+          {% for val in range(0, result['score']|length) %}
             <tr>
-                <td>{{ val[0] }}></td>
-                <td> {{ val[1] }}</td>
+                <td><a href = "{{ result['paths'][val] }}"> {{ result['score'][val][0] }}</a></td>
+                <td> {{ result['score'][val][1] }}</td>
             </tr>
           {% endfor %}
       </table>
