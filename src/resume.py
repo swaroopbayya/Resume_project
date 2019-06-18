@@ -63,7 +63,6 @@ class Resume:
 
         self.corpus.append(' '.join(obj.corpus))
         self.value = self.score(self.corpus, obj)
-
         return self.value
 
     def id(self):
