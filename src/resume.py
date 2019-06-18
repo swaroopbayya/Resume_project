@@ -204,9 +204,10 @@ class TextPreprocessor:
         return clean_text
 
 
+with ZipFile('/Users/swaroop/Desktop/Archive.zip') as Zipobj:
+    Zipobj.extractall('/Users/swaroop/Desktop/Resumes')
+
 if __name__ == '__main__':
-    # with ZipFile('/Users/swaroop/Desktop/Archive.zip') as Zipobj:
-    #    Zipobj.extractall('/Users/swaroop/Desktop/Resumes')
     id_list = list()
     my_list = list()
     jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
