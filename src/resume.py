@@ -1,12 +1,13 @@
 import slate3k as slate
 import re
+import nltk
 from nltk.corpus import stopwords
 import logging
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from pathlib import Path
 from operator import itemgetter
-from zipfile import ZipFile
+import ssl
 
 
 class DividePaths:
@@ -204,7 +205,7 @@ class TextPreprocessor:
         return clean_text
 
 
-if __name__ == '__main__':
+"""if __name__ == '__main__':
     id_list = list()
     my_list = list()
     jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
@@ -214,5 +215,14 @@ if __name__ == '__main__':
         print(resume.compare_with(jobDescription))
         id_list.append(resume.id())
     sort_id = SortId()
-    print(sort_id.sort_scores(id_list))
+    print(sort_id.sort_scores(id_list))"""
 
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download('stopwords')
