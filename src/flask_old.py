@@ -7,13 +7,11 @@ import re
 
 app = Flask(__name__)
 
-jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
-
 app.secret_key = "super secret key"
 
 app.config['UPLOAD_RESUME'] = '/Users/swaroop/Desktop/Resumes'
 
-app.config['UPLOAD_JD'] = '/Users/swaroop/Desktop/JD'
+app.config['UPLOAD_JD'] = '/Users/swaroop/Desktop/JD'    # JobDescription path
 
 
 @app.route('/')
