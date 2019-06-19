@@ -15,7 +15,8 @@ CREDITS:
     Contributors: Hemanth Yamijala
  
 NOTE::
-    Since the JobDescription and resumes after uploading will be stored in local machine, before running flask_old.py change the lines 12 and 14 which contains variables like app.config['UPLOAD_RESUME'] which holds resumes path after uploading and app.config['UPLOAD_JD'] which holds JobDescription path after uploading. Change the paths according to your desired path.
+Since the JobDescription and resumes after uploading will be stored in local machine, before running flask_old.py change the lines 12 and 14 which contains variables like app.config['UPLOAD_RESUME'] which holds resumes path after uploading and app.config['UPLOAD_JD'] which holds JobDescription path after uploading. Change the paths according to your desired path.
+
     
-Regarding nltk.download() for MAC users because of some certificate issues some extra lines(221 - 228) are added at the end. After downloading is done, the lines can be removed to avoid re-downloading it.
+Regarding nltk.download('stopwords') for MAC users, because of certificate issues some extra lines(221 - 228) are added at the end. After downloading is done, the lines can be removed to avoid re-downloading it.
     
