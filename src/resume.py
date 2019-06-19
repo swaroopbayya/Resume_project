@@ -1,13 +1,10 @@
 import slate3k as slate
 import re
-import nltk
-from nltk.corpus import stopwords
 import logging
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from pathlib import Path
 from operator import itemgetter
-import ssl
 
 
 class DividePaths:
@@ -168,6 +165,25 @@ class TextPreprocessor:
        :param regex:
        :return:
        """
+        stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself',
+                     'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its',
+                     'itself',
+                     'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that',
+                     'these',
+                     'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having',
+                     'do',
+                     'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until',
+                     'while',
+                     'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during',
+                     'before',
+                     'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under',
+                     'again',
+                     'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both',
+                     'each',
+                     'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so',
+                     'than',
+                     'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']
+
         if regex == 'Experience(.*?)Education':
             raw_text = re.sub('[^a-zA-Z0-9]', ' ', raw_text)
             raw_text = re.findall(regex, raw_text)
@@ -182,7 +198,7 @@ class TextPreprocessor:
             return raw_text[0]
 
         raw_text = re.sub('[^a-zA-Z]', " ", raw_text).split()
-        raw_text = ' '.join([word for word in raw_text if word not in set(stopwords.words('english'))])
+        raw_text = ' '.join([word for word in raw_text if word not in stopwords])
         special_words = ['machine', 'learning', 'artificial', 'intelligence', 'deep', 'learning']
         abbrev = {'ml': 'machinelearning', 'ai': 'artificialintelligence', 'dl': 'deeplearning'}
         summary = re.findall(regex, raw_text)
@@ -205,7 +221,7 @@ class TextPreprocessor:
         return clean_text
 
 
-"""if __name__ == '__main__':
+if __name__ == '__main__':
     id_list = list()
     my_list = list()
     jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescription1.txt')
@@ -215,14 +231,5 @@ class TextPreprocessor:
         print(resume.compare_with(jobDescription))
         id_list.append(resume.id())
     sort_id = SortId()
-    print(sort_id.sort_scores(id_list))"""
+    print(sort_id.sort_scores(id_list))
 
-
-try:
-    _create_unverified_https_context = ssl._create_unverified_context
-except AttributeError:
-    pass
-else:
-    ssl._create_default_https_context = _create_unverified_https_context
-
-nltk.download('stopwords')
