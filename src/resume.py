@@ -204,9 +204,6 @@ class TextPreprocessor:
         return clean_text
 
 
-with ZipFile('/Users/swaroop/Desktop/Archive.zip') as Zipobj:
-    Zipobj.extractall('/Users/swaroop/Desktop/Resumes')
-
 if __name__ == '__main__':
     id_list = list()
     my_list = list()
@@ -218,3 +215,4 @@ if __name__ == '__main__':
         id_list.append(resume.id())
     sort_id = SortId()
     print(sort_id.sort_scores(id_list))
+

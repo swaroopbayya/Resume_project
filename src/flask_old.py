@@ -11,8 +11,6 @@ jobDescription = JobDescription('/Users/swaroop/Desktop/swaroop/jds/jobDescripti
 
 app.secret_key = "super secret key"
 
-#app.config['UPLOAD_RESUME'] = '/Users/swaroop/Desktop/Archives'
-
 app.config['UPLOAD_RESUME'] = '/Users/swaroop/Desktop/Resumes'
 
 app.config['UPLOAD_JD'] = '/Users/swaroop/Desktop/JD'
