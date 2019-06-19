@@ -232,4 +232,3 @@ if __name__ == '__main__':
         id_list.append(resume.id())
     sort_id = SortId()
     print(sort_id.sort_scores(id_list))
-
